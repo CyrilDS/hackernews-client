@@ -2,6 +2,16 @@ import React, { Component } from "react";
 import "./App.css";
 import Button from "./Components/Button";
 
+const largeColumn = {
+  width: "40%"
+};
+const midColumn = {
+  width: "30%"
+};
+const smallColumn = {
+  width: "10%"
+};
+
 const list = [
   {
     title: "React",
@@ -48,10 +58,12 @@ class App extends Component {
   render() {
     const { searchTerm, list } = this.state;
     return (
-      <div className="App">
-        <Search value={searchTerm} onChange={this.onSearchChange}>
-          Search
-        </Search>
+      <div className="page">
+        <div className="interactions">
+          <Search value={searchTerm} onChange={this.onSearchChange}>
+            Search
+          </Search>
+        </div>
         <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} />
       </div>
     );
@@ -78,18 +90,23 @@ export const Search = ({ value, onChange, children }) => (
 );
 
 export const Table = ({ list, pattern, onDismiss }) => (
-  <div>
+  <div className="table">
     {list.filter(isSearched(pattern)).map(item => {
       return (
-        <div key={item.objectID}>
-          <span>
+        <div key={item.objectID} className="table-row">
+          <span style={largeColumn}>
             <a href={item.url}>{item.title}</a>
           </span>
-          <span>{item.author}</span>
-          <span>{item.num_comments}</span>
-          <span>{item.points}</span>
+          <span style={midColumn}>{item.author}</span>
+          <span style={smallColumn}>Comments={item.num_comments}</span>
+          <span style={smallColumn}>Points={item.points}</span>
           <span>
-            <Button onClick={() => onDismiss(item.objectID)}>Dismiss</Button>
+            <Button
+              onClick={() => onDismiss(item.objectID)}
+              className="button-inline"
+            >
+              Dismiss
+            </Button>
           </span>
         </div>
       );
